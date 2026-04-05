@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash \"C:/Users/izadi/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/brainstorming/scripts/start-server.sh\" --project-dir \"C:/Users/izadi/Downloads/dev/agentic-pm-dashboard\")",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:openai.github.io)",
+      "WebFetch(domain:google.github.io)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:a2aprotocol.ai)",
+      "WebSearch",
+      "WebFetch(domain:docs.openclaw.ai)",
+      "WebFetch(domain:dev.to)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --yes)",
+      "Read(//c/Users/izadi/Downloads/dev/**)",
+      "Bash(npx create-next-app@latest agentic-pm-dashboard-temp --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --yes)",
+      "Bash(mkdir -p /c/Users/izadi/Downloads/dev/_nextjs_temp)",
+      "Bash(mkdir -p /c/Users/izadi/Downloads/dev/nextjs-temp)",
+      "Bash(npm install:*)",
+      "Bash(npx shadcn@latest init -d)"
+    ]
+  }
+}

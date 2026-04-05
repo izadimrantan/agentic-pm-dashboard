@@ -1,0 +1,92 @@
+<h2>Architecture Approaches</h2>
+<p class="subtitle">Three ways to structure the PM Dashboard — pick one or mix elements</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Recommended: Next.js App Router + API Routes + OpenClaw Gateway</h3>
+      <p><strong>How it works:</strong> Next.js handles everything — pages, API routes that proxy to GitHub/OpenClaw, and server components that fetch data. Your API routes act as a thin middleware between the dashboard and external services.</p>
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Single deployable — one Next.js app does it all</li>
+            <li>Server components fetch GitHub data without exposing tokens to the browser</li>
+            <li>API routes proxy OpenClaw calls, keeping your VPS address private</li>
+            <li>Simplest to build, deploy, and maintain</li>
+            <li>shadcn/ui works natively with App Router</li>
+            <li>Vercel AI SDK integrates directly into API routes</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>All logic in one app — could get large over time</li>
+            <li>API routes have cold start on serverless (Vercel), fine on self-hosted</li>
+            <li>WebSocket support requires custom server if on Vercel</li>
+          </ul>
+        </div>
+      </div>
+      <p><strong>Best for:</strong> Solo developer, fast iteration, simplest path to production</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Next.js Frontend + Separate Backend API</h3>
+      <p><strong>How it works:</strong> Next.js is purely the UI. A separate Express/Fastify backend handles GitHub API calls, OpenClaw communication, auth, and data aggregation. Frontend calls your backend, backend calls external services.</p>
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Clean separation of concerns — UI vs data/logic</li>
+            <li>Backend can maintain persistent WebSocket connections to OpenClaw</li>
+            <li>Easier to scale independently (frontend CDN, backend horizontally)</li>
+            <li>Backend can cache GitHub data and manage rate limits centrally</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Two services to build, deploy, and maintain</li>
+            <li>Extra network hop for every request</li>
+            <li>More complex local development setup</li>
+            <li>CORS configuration needed</li>
+            <li>Overkill for a single-user dashboard</li>
+          </ul>
+        </div>
+      </div>
+      <p><strong>Best for:</strong> Teams, complex backends, or if you expect heavy backend logic</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Next.js + BFF (Backend-for-Frontend) on the Same Server</h3>
+      <p><strong>How it works:</strong> Next.js with a custom server (Express wrapper). The custom server handles WebSocket connections for real-time chat, while Next.js API routes handle REST calls. Deployed as one process but with full server capabilities.</p>
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Single deployment like Approach A, but with full WebSocket support</li>
+            <li>Can maintain persistent connections to OpenClaw</li>
+            <li>More flexibility than pure Next.js API routes</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Custom server disables some Next.js optimizations (automatic static optimization)</li>
+            <li>More complex setup than vanilla Next.js</li>
+            <li>Can't deploy on Vercel — needs a VPS or container</li>
+            <li>SSE streaming (used by Vercel AI SDK) works without WebSocket anyway</li>
+          </ul>
+        </div>
+      </div>
+      <p><strong>Best for:</strong> If you need true WebSocket for features beyond chat streaming</p>
+    </div>
+  </div>
+</div>
