@@ -1,10 +1,22 @@
-export default function Home() {
-  return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">PM Dashboard</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Loading...</p>
-      </div>
-    </div>
-  );
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/login");
+  }
+
+  const firstProject = await prisma.project.findFirst({
+    orderBy: { updatedAt: "desc" },
+  });
+
+  if (firstProject) {
+    redirect(`/projects/${firstProject.id}`);
+  }
+
+  redirect("/settings");
 }
