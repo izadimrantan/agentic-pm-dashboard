@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Sidebar } from "@/components/layout/sidebar";
+import { ChatPanel } from "@/components/layout/chat-panel";
 
 export default async function ProjectsLayout({
   children,
@@ -31,6 +32,7 @@ export default async function ProjectsLayout({
       <main className="flex-1 overflow-hidden">
         {children}
       </main>
+      <ChatPanel />
     </div>
   );
 }
