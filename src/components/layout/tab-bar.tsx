@@ -31,8 +31,8 @@ export function TabBar({ projectId }: TabBarProps) {
   const pathname = usePathname();
 
   return (
-    <div className="border-b border-white/[0.06] overflow-x-auto">
-      <nav className="flex min-w-max px-6">
+    <div className="border-b border-white/[0.04] overflow-x-auto bg-white/[0.01]">
+      <nav className="flex min-w-max px-4 gap-1 py-1.5">
         {TABS.map(({ name, slug, icon: Icon }) => {
           const href = `/projects/${projectId}/${slug}`;
           const isActive = pathname === href || pathname.startsWith(`${href}/`);
@@ -42,14 +42,20 @@ export function TabBar({ projectId }: TabBarProps) {
               key={slug}
               href={href}
               className={cn(
-                "flex items-center gap-2 px-3 py-3 text-sm border-b-2 transition-colors whitespace-nowrap",
+                "relative flex items-center gap-2 px-3.5 py-2 text-[13px] rounded-lg transition-all duration-200 whitespace-nowrap",
                 isActive
-                  ? "border-white text-white"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
+                  ? "bg-white/[0.06] text-foreground font-medium"
+                  : "text-muted-foreground/70 hover:text-foreground hover:bg-white/[0.03]"
               )}
             >
-              <Icon className="h-4 w-4" />
+              <Icon className={cn(
+                "h-3.5 w-3.5",
+                isActive ? "text-primary" : ""
+              )} />
               <span>{name}</span>
+              {isActive && (
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[2px] rounded-full bg-primary shadow-[0_0_8px_oklch(0.78_0.154_194.769/0.5)]" />
+              )}
             </Link>
           );
         })}

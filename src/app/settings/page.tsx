@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { Separator } from "@/components/ui/separator";
 import { RepoManager } from "@/components/settings/repo-manager";
 import { McpConfig } from "@/components/settings/mcp-config";
 import { ShareManager } from "@/components/settings/share-manager";
@@ -40,21 +39,24 @@ export default async function SettingsPage() {
   }));
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-8">
+    <div className="max-w-2xl mx-auto p-8 space-y-10">
       <div>
-        <h1 className="text-2xl font-semibold text-foreground">Settings</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Manage your connected repositories, share links, and agent configuration.
+        <div className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/40 mb-2">
+          Configuration
+        </div>
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">Settings</h1>
+        <p className="mt-2 text-sm text-muted-foreground/60 leading-relaxed">
+          Manage connected repositories, share links, and agent configuration.
         </p>
       </div>
 
       <RepoManager initialProjects={serializedProjects} />
 
-      <Separator />
+      <div className="border-t border-white/[0.04]" />
 
       <McpConfig />
 
-      <Separator />
+      <div className="border-t border-white/[0.04]" />
 
       <ShareManager initialLinks={serializedLinks} projects={serializedProjects} />
     </div>

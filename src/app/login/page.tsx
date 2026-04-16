@@ -18,19 +18,28 @@ function GithubIcon({ className }: { className?: string }) {
 
 export default function LoginPage() {
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="glass rounded-2xl p-8 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">PM Dashboard</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Sign in with GitHub to access your projects
+    <div className="relative flex h-screen items-center justify-center overflow-hidden">
+      {/* Ambient glow orbs */}
+      <div className="absolute top-1/4 left-1/3 w-96 h-96 rounded-full bg-primary/[0.04] blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/3 w-80 h-80 rounded-full bg-[oklch(0.7_0.15_280)] opacity-[0.03] blur-[100px] pointer-events-none" />
+
+      <div className="relative glass-card rounded-2xl p-10 text-center max-w-sm w-full mx-4 border-gradient animate-glow-pulse">
+        <div className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/50">
+          Agentic
+        </div>
+        <h1 className="text-2xl font-semibold tracking-tight text-gradient">
+          PM Dashboard
+        </h1>
+        <p className="mt-3 text-sm text-muted-foreground/70 leading-relaxed">
+          Sign in with GitHub to manage your projects
         </p>
         <Button
           onClick={() => signIn("github", { callbackUrl: "/" })}
-          className="mt-6"
-          variant="outline"
+          className="mt-8 w-full gap-2.5 h-11 rounded-xl bg-white/[0.06] border border-white/[0.08] text-foreground hover:bg-white/[0.10] hover:border-white/[0.14] transition-all duration-200"
+          variant="ghost"
         >
-          <GithubIcon className="mr-2 h-4 w-4" />
-          Sign in with GitHub
+          <GithubIcon className="h-4.5 w-4.5" />
+          Continue with GitHub
         </Button>
       </div>
     </div>

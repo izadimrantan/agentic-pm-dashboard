@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { UIMessage } from "ai";
-import { Card } from "@/components/ui/card";
 import { ChatMessages } from "@/components/layout/chat-messages";
 import { ChatInput } from "@/components/layout/chat-input";
 
@@ -53,10 +52,15 @@ export function AnalyticsQuery({ projectId, projectName }: AnalyticsQueryProps) 
   };
 
   return (
-    <Card className="flex flex-col overflow-hidden border border-white/[0.08] bg-white/[0.03] backdrop-blur-md" style={{ height: "400px" }}>
+    <div
+      className="flex flex-col overflow-hidden glass-card rounded-xl"
+      style={{ height: "400px" }}
+    >
       {/* Header */}
-      <div className="border-b border-white/[0.06] px-4 py-3">
-        <p className="text-sm font-medium">Ask about analytics</p>
+      <div className="border-b border-white/[0.04] px-5 py-3">
+        <p className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground/50">
+          Ask about analytics
+        </p>
       </div>
 
       {/* Messages */}
@@ -71,6 +75,6 @@ export function AnalyticsQuery({ projectId, projectName }: AnalyticsQueryProps) 
         onSend={handleSend}
         disabled={isLoading}
       />
-    </Card>
+    </div>
   );
 }

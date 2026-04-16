@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+import { BarChart3 } from "lucide-react";
 
 interface Widget {
   id: string;
@@ -20,33 +14,30 @@ interface AnalyticsDashboardProps {
 export function AnalyticsDashboard({ widgets }: AnalyticsDashboardProps) {
   if (widgets.length === 0) {
     return (
-      <Card className="col-span-full w-full">
-        <CardContent className="flex items-center justify-center py-12">
-          <p className="text-center text-sm text-muted-foreground">
-            No analytics widgets configured. Add MCP server connections in
-            Settings to enable analytics.
-          </p>
-        </CardContent>
-      </Card>
+      <div className="glass-card rounded-xl py-16 text-center">
+        <BarChart3 className="mx-auto h-8 w-8 text-muted-foreground/20" />
+        <p className="mt-4 text-sm text-muted-foreground/50">
+          No analytics widgets configured
+        </p>
+        <p className="mt-1 text-xs text-muted-foreground/30">
+          Add MCP server connections in Settings to enable analytics
+        </p>
+      </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
       {widgets.map((widget) => (
-        <Card key={widget.id}>
-          <CardHeader>
-            <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              {widget.widgetType}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-semibold tabular-nums">--</p>
-            <CardDescription className="mt-1 text-xs">
-              Connected via MCP
-            </CardDescription>
-          </CardContent>
-        </Card>
+        <div key={widget.id} className="glass-card rounded-xl p-5">
+          <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-muted-foreground/40">
+            {widget.widgetType}
+          </p>
+          <p className="mt-2 text-3xl font-semibold tabular-nums text-foreground">--</p>
+          <p className="mt-1 text-[11px] text-muted-foreground/40">
+            Connected via MCP
+          </p>
+        </div>
       ))}
     </div>
   );

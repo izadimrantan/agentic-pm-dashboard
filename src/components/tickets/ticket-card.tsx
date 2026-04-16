@@ -1,5 +1,4 @@
 import { CircleDot, CircleCheck, MessageSquare } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 
 interface GitHubLabel {
   id: number;
@@ -41,58 +40,61 @@ export function TicketCard({ issue }: TicketCardProps) {
   const isOpen = issue.state === "open";
 
   return (
-    <Card className="glass">
-      <CardContent className="pt-4">
-        <div className="flex items-start gap-3">
-          <div className="mt-0.5 shrink-0">
-            {isOpen ? (
-              <CircleDot className="size-5 text-green-500" />
-            ) : (
-              <CircleCheck className="size-5 text-purple-500" />
-            )}
-          </div>
-
-          <div className="flex flex-col gap-1.5 min-w-0 flex-1">
-            <a
-              href={issue.html_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-sm leading-snug hover:text-primary hover:underline break-words"
-            >
-              {issue.title}
-            </a>
-
-            <p className="text-xs text-muted-foreground">
-              #{issue.number} opened {formatDate(issue.created_at)}
-              {issue.user ? ` by ${issue.user.login}` : ""}
-            </p>
-
-            {issue.labels.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mt-0.5">
-                {issue.labels.map((label) => (
-                  <span
-                    key={label.id}
-                    className="inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium"
-                    style={{
-                      borderColor: `#${label.color}`,
-                      color: `#${label.color}`,
-                    }}
-                  >
-                    {label.name}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {issue.comments > 0 && (
-            <div className="flex items-center gap-1 shrink-0 text-xs text-muted-foreground">
-              <MessageSquare className="size-3.5" />
-              <span>{issue.comments}</span>
+    <div className="glass-card rounded-xl px-4 py-3.5">
+      <div className="flex items-start gap-3">
+        <div className="mt-0.5 shrink-0">
+          {isOpen ? (
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/[0.1]">
+              <CircleDot className="size-3.5 text-emerald-400" />
+            </div>
+          ) : (
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-purple-500/[0.1]">
+              <CircleCheck className="size-3.5 text-purple-400" />
             </div>
           )}
         </div>
-      </CardContent>
-    </Card>
+
+        <div className="flex flex-col gap-1.5 min-w-0 flex-1">
+          <a
+            href={issue.html_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-[13px] leading-snug hover:text-primary transition-colors break-words"
+          >
+            {issue.title}
+          </a>
+
+          <p className="text-[11px] text-muted-foreground/50">
+            #{issue.number} opened {formatDate(issue.created_at)}
+            {issue.user ? ` by ${issue.user.login}` : ""}
+          </p>
+
+          {issue.labels.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-0.5">
+              {issue.labels.map((label) => (
+                <span
+                  key={label.id}
+                  className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium"
+                  style={{
+                    backgroundColor: `#${label.color}15`,
+                    color: `#${label.color}`,
+                    border: `1px solid #${label.color}30`,
+                  }}
+                >
+                  {label.name}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {issue.comments > 0 && (
+          <div className="flex items-center gap-1 shrink-0 text-[11px] text-muted-foreground/40">
+            <MessageSquare className="size-3" />
+            <span>{issue.comments}</span>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

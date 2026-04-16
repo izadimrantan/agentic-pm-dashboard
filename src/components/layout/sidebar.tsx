@@ -29,7 +29,7 @@ export function Sidebar({ projects }: SidebarProps) {
       {/* Mobile hamburger button */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="fixed top-4 left-4 z-40 flex h-8 w-8 items-center justify-center rounded-md border border-white/[0.06] bg-zinc-950 text-muted-foreground hover:text-foreground md:hidden"
+        className="fixed top-4 left-4 z-40 flex h-9 w-9 items-center justify-center rounded-xl glass-card text-muted-foreground hover:text-foreground md:hidden transition-colors"
         aria-label="Open sidebar"
       >
         <svg
@@ -46,7 +46,7 @@ export function Sidebar({ projects }: SidebarProps) {
       {/* Mobile backdrop */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 md:hidden"
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
@@ -54,23 +54,24 @@ export function Sidebar({ projects }: SidebarProps) {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex flex-col border-r border-white/[0.06] bg-zinc-950 transition-all duration-200",
-          // Mobile: full-width overlay, controlled by mobileOpen
+          "fixed inset-y-0 left-0 z-50 flex flex-col border-r border-white/[0.04] transition-all duration-300 ease-out",
+          "bg-[oklch(0.06_0.005_260)]",
           "md:relative md:flex",
           mobileOpen ? "flex w-64" : "hidden md:flex",
-          // Desktop: collapsible
           collapsed ? "md:w-16" : "md:w-64"
         )}
       >
         {/* Header */}
-        <div className="flex h-14 items-center justify-between px-3 border-b border-white/[0.06]">
+        <div className="flex h-14 items-center justify-between px-3 border-b border-white/[0.04]">
           {!collapsed && (
-            <span className="text-sm font-semibold text-foreground truncate">Projects</span>
+            <span className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground/70 pl-1">
+              Projects
+            </span>
           )}
           {/* Mobile close */}
           <button
             onClick={() => setMobileOpen(false)}
-            className="ml-auto flex h-7 w-7 items-center justify-center rounded text-muted-foreground hover:text-foreground md:hidden"
+            className="ml-auto flex h-7 w-7 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/[0.04] md:hidden transition-colors"
             aria-label="Close sidebar"
           >
             <X className="h-4 w-4" />
@@ -78,52 +79,71 @@ export function Sidebar({ projects }: SidebarProps) {
           {/* Desktop collapse */}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="hidden md:flex h-7 w-7 items-center justify-center rounded text-muted-foreground hover:text-foreground ml-auto"
+            className="hidden md:flex h-7 w-7 items-center justify-center rounded-lg text-muted-foreground/50 hover:text-foreground hover:bg-white/[0.04] ml-auto transition-colors"
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {collapsed ? (
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-3.5 w-3.5" />
             ) : (
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-3.5 w-3.5" />
             )}
           </button>
         </div>
 
         {/* Project list */}
-        <nav className="flex-1 overflow-y-auto py-2">
-          {projects.map((project) => (
-            <Link
-              key={project.id}
-              href={`/projects/${project.id}`}
-              onClick={() => setMobileOpen(false)}
-              title={collapsed ? project.displayName : undefined}
-              className={cn(
-                "flex items-center gap-3 px-3 py-2 mx-1 rounded-md text-sm transition-colors",
-                isActive(project.id)
-                  ? "bg-white/[0.08] text-foreground"
-                  : "text-muted-foreground hover:bg-white/[0.04] hover:text-foreground"
-              )}
-            >
-              <FolderGit2 className="h-4 w-4 shrink-0" />
-              {!collapsed && (
-                <span className="truncate">{project.displayName}</span>
-              )}
-            </Link>
-          ))}
-          {projects.length === 0 && !collapsed && (
-            <p className="px-4 py-3 text-xs text-muted-foreground">No projects yet.</p>
-          )}
+        <nav className="flex-1 overflow-y-auto py-3 px-2">
+          <div className="flex flex-col gap-0.5">
+            {projects.map((project) => {
+              const active = isActive(project.id);
+              return (
+                <Link
+                  key={project.id}
+                  href={`/projects/${project.id}`}
+                  onClick={() => setMobileOpen(false)}
+                  title={collapsed ? project.displayName : undefined}
+                  className={cn(
+                    "group relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200",
+                    active
+                      ? "bg-white/[0.06] text-foreground"
+                      : "text-muted-foreground hover:bg-white/[0.03] hover:text-foreground"
+                  )}
+                >
+                  {/* Active indicator */}
+                  {active && (
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-5 rounded-full bg-primary shadow-[0_0_8px_oklch(0.78_0.154_194.769/0.5)]" />
+                  )}
+                  <FolderGit2 className={cn(
+                    "h-4 w-4 shrink-0 transition-colors",
+                    active ? "text-primary" : "text-muted-foreground/60 group-hover:text-muted-foreground"
+                  )} />
+                  {!collapsed && (
+                    <span className="truncate font-medium text-[13px]">{project.displayName}</span>
+                  )}
+                </Link>
+              );
+            })}
+            {projects.length === 0 && !collapsed && (
+              <p className="px-3 py-6 text-xs text-muted-foreground/50 text-center">
+                No projects yet
+              </p>
+            )}
+          </div>
         </nav>
 
         {/* Settings link */}
-        <div className="border-t border-white/[0.06] py-2">
+        <div className="border-t border-white/[0.04] py-3 px-2">
           <Link
             href="/settings"
             title={collapsed ? "Settings" : undefined}
-            className="flex items-center gap-3 px-3 py-2 mx-1 rounded-md text-sm text-muted-foreground hover:bg-white/[0.04] hover:text-foreground transition-colors"
+            className={cn(
+              "group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200",
+              pathname === "/settings"
+                ? "bg-white/[0.06] text-foreground"
+                : "text-muted-foreground/60 hover:bg-white/[0.03] hover:text-foreground"
+            )}
           >
             <Settings className="h-4 w-4 shrink-0" />
-            {!collapsed && <span>Settings</span>}
+            {!collapsed && <span className="text-[13px]">Settings</span>}
           </Link>
         </div>
       </aside>

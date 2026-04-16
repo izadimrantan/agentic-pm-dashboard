@@ -47,7 +47,7 @@ export function ChatPanel() {
       {/* Floating trigger button */}
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-white/[0.08] bg-zinc-900/80 text-muted-foreground shadow-lg backdrop-blur-md transition-colors hover:bg-zinc-800/90 hover:text-foreground"
+        className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-2xl glass-card text-muted-foreground/70 hover:text-primary shadow-lg animate-glow-pulse transition-colors duration-200"
         aria-label="Open AI assistant"
       >
         <MessageCircle className="h-5 w-5" />
@@ -58,15 +58,18 @@ export function ChatPanel() {
         <SheetContent
           side="right"
           showCloseButton
-          className="flex w-full flex-col gap-0 p-0 sm:max-w-[440px]"
+          className="flex w-full flex-col gap-0 p-0 sm:max-w-[440px] bg-[oklch(0.08_0.005_260)] border-l border-white/[0.04]"
         >
-          <SheetHeader className="border-b border-white/[0.06] px-4 py-3">
-            <div className="flex items-center gap-2">
+          <SheetHeader className="border-b border-white/[0.04] px-5 py-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/[0.1]">
+                <MessageCircle className="h-3.5 w-3.5 text-primary" />
+              </div>
               <SheetTitle className="text-sm font-medium">
                 AI Assistant
               </SheetTitle>
               {projectId && (
-                <Badge variant="secondary" className="text-xs">
+                <Badge variant="secondary" className="text-[10px] font-normal bg-white/[0.04] border-white/[0.06] text-muted-foreground">
                   Project
                 </Badge>
               )}

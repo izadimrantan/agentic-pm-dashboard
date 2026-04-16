@@ -1,32 +1,26 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth";
-import { prisma } from "./prisma";
 
-export async function getGitHubToken(): Promise<string> {
+export function getGitHubToken(): string {
+  const token = process.env.GITHUB_PAT;
+  if (!token) {
+    throw new Error("GITHUB_PAT environment variable is not set");
+  }
+  return token;
+}
+
+export async function requireAuth(): Promise<void> {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     throw new Error("Not authenticated");
   }
-
-  const account = await prisma.account.findFirst({
-    where: {
-      userId: session.user.id,
-      provider: "github",
-    },
-  });
-
-  if (!account?.access_token) {
-    throw new Error("No GitHub access token found");
-  }
-
-  return account.access_token;
 }
 
 export async function githubFetch(
   path: string,
   options?: RequestInit
 ): Promise<Response> {
-  const token = await getGitHubToken();
+  const token = getGitHubToken();
 
   const response = await fetch(`https://api.github.com${path}`, {
     ...options,
@@ -72,41 +66,6 @@ export async function getRepoIssues(
 ): Promise<unknown[]> {
   const response = await githubFetch(
     `/repos/${owner}/${repo}/issues?state=${state}&per_page=50&sort=updated`
-  );
-  return response.json();
-}
-
-export async function createRepoIssue(
-  owner: string,
-  repo: string,
-  title: string,
-  body: string,
-  labels?: string[]
-): Promise<unknown> {
-  const response = await githubFetch(`/repos/${owner}/${repo}/issues`, {
-    method: "POST",
-    body: JSON.stringify({ title, body, labels }),
-  });
-  return response.json();
-}
-
-export async function updateRepoIssue(
-  owner: string,
-  repo: string,
-  issueNumber: number,
-  data: {
-    title?: string;
-    body?: string;
-    state?: "open" | "closed";
-    labels?: string[];
-  }
-): Promise<unknown> {
-  const response = await githubFetch(
-    `/repos/${owner}/${repo}/issues/${issueNumber}`,
-    {
-      method: "PATCH",
-      body: JSON.stringify(data),
-    }
   );
   return response.json();
 }

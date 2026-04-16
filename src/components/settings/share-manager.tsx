@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Check, Trash2, Plus } from "lucide-react";
+import { Copy, Check, Trash2, Plus, Link2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -91,41 +91,52 @@ export function ShareManager({ initialLinks }: ShareManagerProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-foreground">Share Links</h2>
-        <Button size="sm" onClick={handleCreate} disabled={creating} variant="outline">
-          <Plus className="h-4 w-4 mr-1" />
+        <h2 className="text-sm font-medium uppercase tracking-[0.1em] text-muted-foreground/70">
+          Share Links
+        </h2>
+        <Button
+          size="sm"
+          onClick={handleCreate}
+          disabled={creating}
+          variant="ghost"
+          className="gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-white/[0.04]"
+        >
+          <Plus className="h-3.5 w-3.5" />
           {creating ? "Creating..." : "New Link (All Projects)"}
         </Button>
       </div>
 
       {links.length === 0 && (
-        <p className="text-sm text-muted-foreground">
-          No share links yet. Create one to share your dashboard.
-        </p>
+        <div className="glass-card rounded-xl py-8 text-center">
+          <Link2 className="mx-auto h-8 w-8 text-muted-foreground/30" />
+          <p className="mt-3 text-sm text-muted-foreground/50">
+            No share links yet
+          </p>
+        </div>
       )}
 
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {links.map((link) => (
           <div
             key={link.id}
-            className="glass rounded-lg px-4 py-3 flex items-center justify-between gap-3"
+            className="group glass-card rounded-xl px-4 py-3 flex items-center justify-between gap-3"
           >
-            <div className="min-w-0 flex-1 space-y-1">
+            <div className="min-w-0 flex-1 space-y-1.5">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-sm font-mono text-foreground">
+                <span className="text-sm font-mono text-foreground/80">
                   {truncateToken(link.token)}
                 </span>
                 {link.project ? (
-                  <Badge variant="secondary" className="text-xs">
+                  <Badge variant="secondary" className="text-[10px] font-normal bg-white/[0.04] border-white/[0.06] text-muted-foreground">
                     {link.project.displayName}
                   </Badge>
                 ) : (
-                  <Badge variant="outline" className="text-xs">
+                  <Badge variant="secondary" className="text-[10px] font-normal bg-primary/[0.06] border-primary/[0.1] text-primary/80">
                     All Projects
                   </Badge>
                 )}
               </div>
-              <div className="flex items-center gap-3 text-xs text-muted-foreground">
+              <div className="flex items-center gap-3 text-[11px] text-muted-foreground/40">
                 <span>Created {formatDate(link.createdAt)}</span>
                 {link.expiresAt && (
                   <span>Expires {formatDate(link.expiresAt)}</span>
@@ -133,28 +144,28 @@ export function ShareManager({ initialLinks }: ShareManagerProps) {
               </div>
             </div>
 
-            <div className="flex items-center gap-1 shrink-0">
+            <div className="flex items-center gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
               <Button
-                size="sm"
+                size="icon-sm"
                 variant="ghost"
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground/40 hover:text-foreground"
                 onClick={() => handleCopy(link)}
               >
                 {copiedId === link.id ? (
-                  <Check className="h-4 w-4 text-green-500" />
+                  <Check className="h-3.5 w-3.5 text-green-400" />
                 ) : (
-                  <Copy className="h-4 w-4" />
+                  <Copy className="h-3.5 w-3.5" />
                 )}
                 <span className="sr-only">Copy link</span>
               </Button>
               <Button
-                size="sm"
+                size="icon-sm"
                 variant="ghost"
-                className="text-muted-foreground hover:text-destructive"
+                className="text-muted-foreground/40 hover:text-destructive"
                 disabled={deletingId === link.id}
                 onClick={() => handleDelete(link.id)}
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash2 className="h-3.5 w-3.5" />
                 <span className="sr-only">Delete link</span>
               </Button>
             </div>

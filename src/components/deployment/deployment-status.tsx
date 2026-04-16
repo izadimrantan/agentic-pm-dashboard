@@ -1,12 +1,6 @@
 "use client";
 
 import { CheckCircle2, XCircle, Loader2, ExternalLink } from "lucide-react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
 
 interface GitHubDeployment {
   id: number;
@@ -19,7 +13,6 @@ interface GitHubDeployment {
     login: string;
   } | null;
   statuses_url?: string;
-  // GitHub deployments don't include status inline; we use a synthetic field
   state?: string;
 }
 
@@ -38,13 +31,23 @@ interface DeploymentStatusProps {
 
 function StatusIcon({ state }: { state?: string }) {
   if (state === "success") {
-    return <CheckCircle2 className="size-5 shrink-0 text-green-500" />;
+    return (
+      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/[0.1]">
+        <CheckCircle2 className="size-4 text-emerald-400" />
+      </div>
+    );
   }
   if (state === "failure" || state === "error") {
-    return <XCircle className="size-5 shrink-0 text-red-500" />;
+    return (
+      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-red-500/[0.1]">
+        <XCircle className="size-4 text-red-400" />
+      </div>
+    );
   }
   return (
-    <Loader2 className="size-5 shrink-0 animate-spin text-muted-foreground" />
+    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/[0.04]">
+      <Loader2 className="size-4 animate-spin text-muted-foreground/50" />
+    </div>
   );
 }
 
@@ -68,59 +71,57 @@ export function DeploymentStatus({
   const liveUrl = deploymentConfig?.url;
 
   return (
-    <div className="p-6 flex flex-col gap-6">
+    <div className="p-6 flex flex-col gap-5">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Deployment</h2>
+        <h2 className="text-lg font-semibold tracking-tight">Deployment</h2>
         {liveUrl && (
           <a
             href={liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-sm text-primary hover:underline"
+            className="flex items-center gap-1.5 text-xs text-primary/80 hover:text-primary transition-colors"
           >
             Live URL
-            <ExternalLink className="size-3.5" />
+            <ExternalLink className="size-3" />
           </a>
         )}
       </div>
 
       {deploymentPlatform && (
-        <Card className="glass">
-          <CardHeader>
-            <CardTitle>Platform</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col gap-1">
-              <span className="text-sm font-medium">{deploymentPlatform}</span>
-              {liveUrl && (
-                <a
-                  href={liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary hover:underline break-all"
-                >
-                  {liveUrl}
-                  <ExternalLink className="size-3 shrink-0" />
-                </a>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+        <div className="glass-card rounded-xl p-4">
+          <div className="flex flex-col gap-1">
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground/50">Platform</span>
+            <span className="text-sm font-medium">{deploymentPlatform}</span>
+            {liveUrl && (
+              <a
+                href={liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-xs text-muted-foreground/40 hover:text-primary transition-colors break-all mt-0.5 font-mono"
+              >
+                {liveUrl}
+                <ExternalLink className="size-3 shrink-0" />
+              </a>
+            )}
+          </div>
+        </div>
       )}
 
-      <div className="flex flex-col gap-4">
-        <h3 className="text-sm font-medium text-muted-foreground">
-          GitHub Deployments — {repoOwner}/{repoName}
+      <div className="flex flex-col gap-3">
+        <h3 className="text-xs font-medium uppercase tracking-wider text-muted-foreground/40">
+          GitHub Deployments
         </h3>
 
         {deployments.length === 0 ? (
-          <p className="text-sm text-muted-foreground">
-            No deployments found.
-          </p>
+          <div className="glass-card rounded-xl py-12 text-center">
+            <p className="text-sm text-muted-foreground/50">
+              No deployments found.
+            </p>
+          </div>
         ) : (
-          deployments.map((deployment) => (
-            <Card key={deployment.id} className="glass">
-              <CardContent className="pt-4">
+          <div className="flex flex-col gap-1.5">
+            {deployments.map((deployment) => (
+              <div key={deployment.id} className="glass-card rounded-xl px-4 py-3.5">
                 <div className="flex items-start gap-3">
                   <StatusIcon state={deployment.state} />
                   <div className="flex flex-col gap-1 min-w-0 flex-1">
@@ -128,35 +129,32 @@ export function DeploymentStatus({
                       <span className="font-medium text-sm">
                         {deployment.environment}
                       </span>
-                      <span className="text-xs text-muted-foreground">
-                        ref: {deployment.ref}
-                      </span>
-                      <span className="font-mono text-xs text-muted-foreground">
-                        {deployment.sha.slice(0, 7)}
+                      <span className="text-[11px] text-muted-foreground/40 font-mono">
+                        {deployment.ref} @ {deployment.sha.slice(0, 7)}
                       </span>
                     </div>
 
                     {deployment.description && (
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-muted-foreground/50">
                         {deployment.description}
                       </p>
                     )}
 
-                    <div className="flex flex-wrap items-center gap-3 mt-1">
-                      <span className="text-xs text-muted-foreground">
+                    <div className="flex flex-wrap items-center gap-3 mt-0.5">
+                      <span className="text-[11px] text-muted-foreground/40">
                         {formatDate(deployment.created_at)}
                       </span>
                       {deployment.creator?.login && (
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-[11px] text-muted-foreground/40">
                           by {deployment.creator.login}
                         </span>
                       )}
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          ))
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </div>

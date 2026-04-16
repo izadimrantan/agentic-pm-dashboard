@@ -32,18 +32,18 @@ export function ChatInput({ value, onChange, onSend, disabled }: ChatInputProps)
   };
 
   return (
-    <div className="border-t border-white/[0.06] p-3">
+    <div className="border-t border-white/[0.04] p-3">
       <div className="relative flex items-end gap-2">
         <Textarea
           ref={textareaRef}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask anything… (Enter to send)"
+          placeholder="Ask anything..."
           disabled={disabled}
           className={cn(
-            "min-h-[40px] max-h-[120px] resize-none pr-2 text-sm",
-            "border-white/[0.06] bg-white/[0.04] focus-visible:border-white/[0.12]"
+            "min-h-[40px] max-h-[120px] resize-none pr-2 text-[13px]",
+            "border-white/[0.04] bg-white/[0.02] focus-visible:border-primary/20 focus-visible:ring-primary/10 rounded-xl"
           )}
           rows={1}
         />
@@ -52,15 +52,12 @@ export function ChatInput({ value, onChange, onSend, disabled }: ChatInputProps)
           disabled={disabled || !value.trim()}
           size="icon"
           variant="ghost"
-          className="mb-0.5 shrink-0 text-muted-foreground hover:text-foreground disabled:opacity-30"
+          className="mb-0.5 shrink-0 text-muted-foreground/40 hover:text-primary disabled:opacity-20 rounded-lg"
           aria-label="Send message"
         >
           <SendHorizonal className="h-4 w-4" />
         </Button>
       </div>
-      <p className="mt-1.5 text-center text-[10px] text-muted-foreground/50">
-        Shift+Enter for newline
-      </p>
     </div>
   );
 }
