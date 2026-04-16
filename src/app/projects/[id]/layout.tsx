@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { ProjectHeader } from "@/components/layout/project-header";
 import { TabBar } from "@/components/layout/tab-bar";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ProjectLayoutProps {
   children: React.ReactNode;
@@ -28,15 +27,17 @@ export default async function ProjectLayout({ children, params }: ProjectLayoutP
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      <ProjectHeader
-        displayName={project.displayName}
-        githubRepoOwner={project.githubRepoOwner}
-        githubRepoName={project.githubRepoName}
-      />
-      <TabBar projectId={project.id} />
-      <ScrollArea className="flex-1">
+      <div className="shrink-0">
+        <ProjectHeader
+          displayName={project.displayName}
+          githubRepoOwner={project.githubRepoOwner}
+          githubRepoName={project.githubRepoName}
+        />
+        <TabBar projectId={project.id} />
+      </div>
+      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
         {children}
-      </ScrollArea>
+      </div>
     </div>
   );
 }
