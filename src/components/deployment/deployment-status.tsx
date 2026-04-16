@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckCircle2, XCircle, Loader2, ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface GitHubDeployment {
   id: number;
@@ -75,15 +76,15 @@ export function DeploymentStatus({
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold tracking-tight">Deployment</h2>
         {liveUrl && (
-          <a
-            href={liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs text-primary/80 hover:text-primary transition-colors"
+          <Button
+            variant="link"
+            size="sm"
+            render={<a href={liveUrl} target="_blank" rel="noopener noreferrer" />}
+            className="text-xs text-primary/80 hover:text-primary gap-1.5 p-0 h-auto"
           >
             Live URL
             <ExternalLink className="size-3" />
-          </a>
+          </Button>
         )}
       </div>
 
@@ -93,15 +94,15 @@ export function DeploymentStatus({
             <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground/50">Platform</span>
             <span className="text-sm font-medium">{deploymentPlatform}</span>
             {liveUrl && (
-              <a
-                href={liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-xs text-muted-foreground/40 hover:text-primary transition-colors break-all mt-0.5 font-mono"
+              <Button
+                variant="link"
+                size="sm"
+                render={<a href={liveUrl} target="_blank" rel="noopener noreferrer" />}
+                className="text-xs text-muted-foreground/40 hover:text-primary gap-1 p-0 h-auto mt-0.5 font-mono justify-start break-all"
               >
                 {liveUrl}
                 <ExternalLink className="size-3 shrink-0" />
-              </a>
+              </Button>
             )}
           </div>
         </div>

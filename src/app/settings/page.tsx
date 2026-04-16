@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { RepoManager } from "@/components/settings/repo-manager";
 import { McpConfig } from "@/components/settings/mcp-config";
 import { ShareManager } from "@/components/settings/share-manager";
+import { Separator } from "@/components/ui/separator";
 
 export default async function SettingsPage() {
   const [projects, shareLinks] = await Promise.all([
@@ -52,11 +53,11 @@ export default async function SettingsPage() {
 
       <RepoManager initialProjects={serializedProjects} />
 
-      <div className="border-t border-white/[0.04]" />
+      <Separator className="bg-white/[0.04]" />
 
       <McpConfig />
 
-      <div className="border-t border-white/[0.04]" />
+      <Separator className="bg-white/[0.04]" />
 
       <ShareManager initialLinks={serializedLinks} projects={serializedProjects} />
     </div>

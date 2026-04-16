@@ -1,6 +1,7 @@
 "use client";
 
 import { TicketCard, type GitHubIssue } from "./ticket-card";
+import { Badge } from "@/components/ui/badge";
 
 interface TicketListProps {
   owner: string;
@@ -17,9 +18,9 @@ export function TicketList({ owner, repo, issues }: TicketListProps) {
     <div className="p-6 flex flex-col gap-4">
       <div className="flex items-center gap-3">
         <h2 className="text-lg font-semibold tracking-tight">Issues</h2>
-        <span className="text-xs font-medium text-muted-foreground/50 bg-white/[0.04] px-2 py-0.5 rounded-full">
+        <Badge variant="secondary" className="text-xs font-medium text-muted-foreground/50 bg-white/[0.04]">
           {openCount} open
-        </span>
+        </Badge>
       </div>
 
       {realIssues.length === 0 && (
