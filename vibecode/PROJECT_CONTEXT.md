@@ -8,7 +8,7 @@
 
 **Project Name:** Agentic PM Dashboard
 **Description:** A centralized project management dashboard for a product manager/builder to view all GitHub projects in one place, with 7 information tabs per project, AI agent chat (OpenClaw), and analytics via MCP servers. Desktop-first, responsive for mobile.
-**Status:** Planning
+**Status:** Implemented (all 12 stages complete, in polish phase)
 
 ---
 
@@ -17,7 +17,7 @@
 | Layer | Technology | Version |
 |-------|------------|---------|
 | Language | TypeScript | 5.x |
-| Framework | Next.js (App Router) | 15.x |
+| Framework | Next.js (App Router) | 16.x |
 | Styling | Tailwind CSS | 4.x |
 | UI Components | shadcn/ui | latest |
 | Font | Inter | via next/font/google |
@@ -260,11 +260,13 @@ Role-based access where colleagues log in via GitHub OAuth with viewer permissio
 
 ## Known Limitations / Tech Debt
 
-- [ ] MCP server configuration UI not yet designed in detail
-- [ ] Analytics widget system needs detailed spec per data source
-- [ ] Read-only share link scope/permissions need detailed design
+- [x] MCP server configuration UI — implemented as info card (config managed via OpenClaw Gateway)
+- [ ] Analytics widget system needs real MCP data source integration (currently placeholder)
+- [x] Read-only share links — implemented with token-based access and optional expiration
 - [ ] OpenClaw Gateway needs remote access configuration (Tailscale/SSH tunnel)
+- [ ] Font issue: Inter font not applying due to circular CSS variable reference
+- [ ] Some components use raw HTML elements instead of shadcn/ui
 
 ---
 
-*Last updated: 2026-04-05*
+*Last updated: 2026-04-16*

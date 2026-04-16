@@ -1,4 +1,6 @@
 import { CircleDot, CircleCheck, MessageSquare } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 interface GitHubLabel {
   id: number;
@@ -55,14 +57,14 @@ export function TicketCard({ issue }: TicketCardProps) {
         </div>
 
         <div className="flex flex-col gap-1.5 min-w-0 flex-1">
-          <a
-            href={issue.html_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-[13px] leading-snug hover:text-primary transition-colors break-words"
+          <Button
+            variant="link"
+            size="sm"
+            render={<a href={issue.html_url} target="_blank" rel="noopener noreferrer" />}
+            className="font-medium text-[13px] leading-snug hover:text-primary p-0 h-auto text-foreground justify-start break-words whitespace-normal text-left"
           >
             {issue.title}
-          </a>
+          </Button>
 
           <p className="text-[11px] text-muted-foreground/50">
             #{issue.number} opened {formatDate(issue.created_at)}
@@ -72,17 +74,18 @@ export function TicketCard({ issue }: TicketCardProps) {
           {issue.labels.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-0.5">
               {issue.labels.map((label) => (
-                <span
+                <Badge
                   key={label.id}
-                  className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium"
+                  variant="outline"
+                  className="text-[10px] font-medium"
                   style={{
                     backgroundColor: `#${label.color}15`,
                     color: `#${label.color}`,
-                    border: `1px solid #${label.color}30`,
+                    borderColor: `#${label.color}30`,
                   }}
                 >
                   {label.name}
-                </span>
+                </Badge>
               ))}
             </div>
           )}

@@ -162,13 +162,15 @@ export function RepoManager({ initialProjects }: RepoManagerProps) {
         <div className="glass-strong rounded-xl p-4 space-y-3">
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium text-foreground">Select a Repository</p>
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={closePicker}
-              className="flex h-7 w-7 items-center justify-center rounded-lg text-muted-foreground/50 hover:text-foreground hover:bg-white/[0.04] transition-colors"
+              className="h-7 w-7 rounded-lg text-muted-foreground/50 hover:text-foreground hover:bg-white/[0.04]"
             >
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
-            </button>
+            </Button>
           </div>
 
           <div className="relative">

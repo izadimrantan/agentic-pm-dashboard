@@ -12,6 +12,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ChatMessages } from "./chat-messages";
 import { ChatInput } from "./chat-input";
 
@@ -45,13 +46,15 @@ export function ChatPanel() {
   return (
     <>
       {/* Floating trigger button */}
-      <button
+      <Button
+        variant="ghost"
+        size="icon"
         onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-2xl glass-card text-muted-foreground/70 hover:text-primary shadow-lg animate-glow-pulse transition-colors duration-200"
+        className="fixed bottom-5 right-5 z-40 h-12 w-12 rounded-2xl glass-card text-muted-foreground/70 hover:text-primary shadow-lg animate-glow-pulse"
         aria-label="Open AI assistant"
       >
         <MessageCircle className="h-5 w-5" />
-      </button>
+      </Button>
 
       {/* Sheet panel */}
       <Sheet open={open} onOpenChange={setOpen}>

@@ -3,8 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FolderGit2, Settings, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { FolderGit2, Settings, ChevronLeft, ChevronRight, X, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface Project {
   id: string;
@@ -27,21 +28,15 @@ export function Sidebar({ projects }: SidebarProps) {
   return (
     <>
       {/* Mobile hamburger button */}
-      <button
+      <Button
+        variant="ghost"
+        size="icon"
         onClick={() => setMobileOpen(true)}
-        className="fixed top-4 left-4 z-40 flex h-9 w-9 items-center justify-center rounded-xl glass-card text-muted-foreground hover:text-foreground md:hidden transition-colors"
+        className="fixed top-4 left-4 z-40 h-9 w-9 rounded-xl glass-card text-muted-foreground hover:text-foreground md:hidden"
         aria-label="Open sidebar"
       >
-        <svg
-          className="h-4 w-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
+        <Menu className="h-4 w-4" />
+      </Button>
 
       {/* Mobile backdrop */}
       {mobileOpen && (
@@ -69,17 +64,21 @@ export function Sidebar({ projects }: SidebarProps) {
             </span>
           )}
           {/* Mobile close */}
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setMobileOpen(false)}
-            className="ml-auto flex h-7 w-7 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/[0.04] md:hidden transition-colors"
+            className="ml-auto h-7 w-7 rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/[0.04] md:hidden"
             aria-label="Close sidebar"
           >
             <X className="h-4 w-4" />
-          </button>
+          </Button>
           {/* Desktop collapse */}
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setCollapsed(!collapsed)}
-            className="hidden md:flex h-7 w-7 items-center justify-center rounded-lg text-muted-foreground/50 hover:text-foreground hover:bg-white/[0.04] ml-auto transition-colors"
+            className="hidden md:flex h-7 w-7 rounded-lg text-muted-foreground/50 hover:text-foreground hover:bg-white/[0.04] ml-auto"
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {collapsed ? (
@@ -87,7 +86,7 @@ export function Sidebar({ projects }: SidebarProps) {
             ) : (
               <ChevronLeft className="h-3.5 w-3.5" />
             )}
-          </button>
+          </Button>
         </div>
 
         {/* Project list */}
